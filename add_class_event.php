@@ -11,10 +11,10 @@ if (isset($_POST['add'])){
 	$date_end = $_POST['date_end'];
 	$title = $_POST['title'];
 	
-	$query = mysqli_query($conn,"insert into event (date_end,date_start,event_title,teacher_class_id) values('$date_end','$date_start','$title','$get_id')")or die(mysqli_error());
+	$query = mysqli_query($conn,"insert into event (date_end,date_start,event_title) values('$date_end','$date_start','$title')")or die(mysqli_error());
 	?>
 	<script>
-	window.location = "class_calendar.php<?php echo '?id='.$get_id; ?>";
+	window.location = "calendar_of_events.php";
 	</script>
 <?php
 }
@@ -22,7 +22,7 @@ if (isset($_POST['add'])){
 
 		<table cellpadding="0" cellspacing="0" border="0" class="table" id="">
 									
-									<?php include('move_to_school_year.php'); ?>
+		
 										<thead>
 										        <tr>
 												<th>Event</th>
@@ -35,23 +35,21 @@ if (isset($_POST['add'])){
 										<tbody>
 											
                              
-									<?php $event_query = mysqli_query($conn,"select * from event where teacher_class_id = '$get_id' ")or die(mysqli_error());
+									<?php $event_query = mysqli_query($conn,"select * from event where teacher_class_id = '' ")or die(mysqli_error());
 										while($event_row = mysqli_fetch_array($event_query)){
 										$id  = $event_row['event_id'];
 									?>                              
 										<tr id="del<?php echo $id; ?>">
 									
-										 <td><?php echo $event_row['event_title']; ?></td>
+										 <td><?php echo $event_row['event_title']; ?> </td>
                                          <td><?php  echo $event_row['date_start']; ?>
-											<br>
+											<br>To
 											 <?php  echo $event_row['date_end']; ?>
 										 </td>                                    
                                          <td width="40">
-										 <form method="post" action="delete_class_event.php">
-										 <input type="hidden" name="get_id" value="<?php echo $get_id; ?>">
-										 <input type="hidden" name="id" value="<?php echo $id; ?>">
-										 <button class="btn btn-danger" name="delete_event"><i class="icon-remove icon-large"></i></button>
-										 </form>
+							
+										 <a  class="btn btn-danger" href="delete_event.php<?php echo '?id='.$id; ?>"><i class="icon-remove icon-large"></i></a>
+								
 										 </td>                                      
 									
                              

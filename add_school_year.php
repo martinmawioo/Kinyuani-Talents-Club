@@ -2,18 +2,18 @@
                         <!-- block -->
                         <div class="block">
                             <div class="navbar navbar-inner block-header">
-                                <div class="muted pull-left">Add team</div>
+                                <div class="muted pull-left">Add Training Year</div>
                             </div>
                             <div class="block-content collapse in">
                                 <div class="span12">
 								<form method="post">
 										<div class="control-group">
                                           <div class="controls">
-                                            <input name="class_name" class="input focused" id="focusedInput" type="text" placeholder = "Class Name" required>
+                                            <input class="input focused" name="school_year" id="focusedInput" type="text" placeholder = "School Year" required>
                                           </div>
                                         </div>
 										
-									
+										
 											<div class="control-group">
                                           <div class="controls">
 												<button name="save" class="btn btn-info"><i class="icon-plus-sign icon-large"></i></button>
@@ -25,24 +25,29 @@
                             </div>
                         </div>
                         <!-- /block -->
-                    </div><?php
+                    </div>
+					
+					<?php
 if (isset($_POST['save'])){
-$class_name = $_POST['class_name'];
+$school_year = $_POST['school_year'];
 
 
-$query = mysqli_query($conn,"select * from class where class_name  =  '$class_name' ")or die(mysqli_error());
+
+$query = mysqli_query($conn,"select * from school_year where school_year = '$school_year'")or die(mysqli_error());
 $count = mysqli_num_rows($query);
 
 if ($count > 0){ ?>
 <script>
-alert('Date Already Exist');
+alert('Data Already Exist');
 </script>
 <?php
 }else{
-mysqli_query($conn,"insert into class (class_name) values('$class_name')")or die(mysqli_error());
+mysqli_query($conn,"insert into school_year (school_year) values('$school_year')")or die(mysqli_error());
+
+mysqli_query($conn,"insert into activity_log (date,username,action) values(NOW(),'$user_username','Add School Year $school_year')")or die(mysqli_error());
 ?>
 <script>
-window.location = "class.php";
+window.location = "school_year.php";
 </script>
 <?php
 }
